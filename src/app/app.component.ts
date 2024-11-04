@@ -24,7 +24,7 @@ export class AppComponent {
   private scene!: BABYLON.Scene;
   private camera!: BABYLON.ArcRotateCamera;
   private ground!: BABYLON.Mesh;
-  private shapes: BABYLON.Vector3[] = [];  // Stores 2D points
+  private shapes: BABYLON.Vector3[] = [];  
   private room!: Room;
   private client:Client;
   private players: Map<string, Player> = new Map();
@@ -40,7 +40,7 @@ export class AppComponent {
   }
 
   private initializeBabylon() {
-    // Set up Babylon scene
+    
     this.engine = new BABYLON.Engine(this.renderCanvas.nativeElement, true);
     this.scene = new BABYLON.Scene(this.engine);
 
@@ -62,14 +62,13 @@ export class AppComponent {
   private async connectToRoom() {
     this.room = await this.client.joinOrCreate('game_room');
 
-    // Handle player additions
     this.room.state.players.onAdd = (player: any, key: string) => {
       const playerMesh = BABYLON.MeshBuilder.CreateBox(`player_${key}`, { size: 1 }, this.scene);
       playerMesh.position = new BABYLON.Vector3(player.x, player.y, player.z);
       this.players.set(key, { id: key, mesh: playerMesh, position: playerMesh.position });
     };
 
-    // Handle player movements
+    
     this.room.onMessage('player_move', (data: any) => {
       const { playerId, position } = data;
       const player = this.players.get(playerId);
@@ -82,7 +81,7 @@ export class AppComponent {
     
     this.room = await this.client.joinOrCreate("game_room");
 
-    // Listen for updates from the server
+    
     this.room.onMessage("player_move", (data) => {
       const playerMesh = this.scene.getMeshByName(data.id) as BABYLON.Mesh;
       if (playerMesh) {
@@ -91,17 +90,15 @@ export class AppComponent {
       }
     });
 
-    // Listen for other players' shapes and movements
+    
     this.room.state.players.onAdd = (player: any, key: any) => {
-      // Handle adding new players and their shapes here
+     
     };
-    // this.room.onMessage("player_move", (data) => {
-    //   // Update player positions based on received data
-    // });
+   
   }
 
   startDrawing() {
-    this.shapes = []; // Reset shapes
+    this.shapes = []; 
     this.scene.onPointerDown = (evt, pickResult) => {
       if (pickResult.hit && pickResult.pickedPoint && pickResult.pickedMesh === this.ground) {
         this.shapes.push(pickResult.pickedPoint.clone());
@@ -112,11 +109,10 @@ export class AppComponent {
   finalizeShape() {
     if (this.shapes.length < 2) return;
 
-    // Draw the 2D shape using the collected points
+    
     const line = BABYLON.MeshBuilder.CreateLines("line", { points: this.shapes }, this.scene);
-    this.shapes = []; // Reset for the next shape
+    this.shapes = []; 
 
-    // Extrude the shape to 3D
     this.extrudeShapeTo3D(line);
   }
 
@@ -127,18 +123,17 @@ export class AppComponent {
     if (verticesData) {
       for (let i = 0; i < verticesData.length; i += 3) {
         const x = verticesData[i];
-        const y = verticesData[i + 1] + 0.1; // Slightly adjust the y-coordinate
+        const y = verticesData[i + 1] + 0.1; 
         const z = verticesData[i + 2];
         shape.push(new BABYLON.Vector3(x, y, z));
       }
     }
 
     if (shape) {
-      const path = [new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(0, 1, 0)]; // Define a simple path for extrusion
+      const path = [new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(0, 1, 0)]; 
       const extruded = BABYLON.MeshBuilder.ExtrudeShape("extrudedShape", { shape, path }, this.scene);
-      extruded.position.y = 0.01; // Raise slightly above the ground
+      extruded.position.y = 0.01; 
 
-      // Broadcast shape position
       this.broadcastPosition(extruded);
     }
   }
