@@ -1,27 +1,15 @@
-# MultiPlayerGame
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.8.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+<ul>
+  <li>This is a game where user can draw 2D shapes and can extrude shape to3D</li>
+</ul>
+<h2>Thught Process</h2>
+<ul>
+  <li>I created a angular project and install babylon js to draw 2D shapes and extrude it into 3D shapes</li>
+  <li>In main app componet i defined all the necessary variable and created some methods<li>
+  <ol>
+    <li>initializeBabylon: In this i initialized all the created variables and called some methods</li>
+    <li>startDrawing(): It resets the previous state shape and start a new drawnig it meant it doesn't delete prvious shapes</li>
+    <li>finilazeShape(): It used when 2D shape created and  for for colling extrudeShapeTo3d() method </li>
+    <li>extrudeShapeTo3d(): It used to create 3D shapes from 2D shapes using Babylon Vector</li>
+  </ol>
+    
+</ul>
